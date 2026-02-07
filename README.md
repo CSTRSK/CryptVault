@@ -117,7 +117,6 @@ Step 4: Recovery
 3. Upload encrypted `.enc` file
 4. Automatic key reconstruction and decryption
 
----
 
 🏗️ Architecture
 
@@ -142,7 +141,7 @@ Step 4: Recovery
 |   - No data persistence (memory-only)                                    |
 |   - No external crypto libraries (native WebCrypto only)                 |
 +--------------------------------------------------------------------------+
-
+```
 ---
 
 🔐 Security Model
