@@ -122,36 +122,26 @@ Step 4: Recovery
 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         BROWSER (Client-Only)                    │
-│                                                                  │
-│  ┌─────────────┐    ┌──────────────┐    ┌──────────────────┐    │
-│  │   UI Layer  │    │  WebCrypto   │    │   SSS Engine     │    │
-│  │ Bulma+Alpine│◄──►│  AES-256-GCM │◄──►│  GF(2²⁵⁶) Math   │    │
-│  └─────────────┘    └──────────────┘    └──────────────────┘    │
-│         │                  │                     │               │
-│         ▼                  ▼                     ▼               │
-│  ┌─────────────┐    ┌────────────┐    ┌──────────────────┐      │
-│  │ File Import │    │  Encrypt   │    │  5 Shares Output │      │
-│  │ JSON/CSV/TXT│───►│  IV+Cipher │───►│  (3-of-5 Threshold)│    │
-│  └─────────────┘    └────────────┘    └──────────────────┘      │
-│                                                                  │
-│  🔐 SECURITY GUARANTEES:                                         │
-│  • No network requests after initial load                        │
-│  • No data persistence (memory-only)                             │
-│  • No external crypto libraries (native WebCrypto)               │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-Technology Stack
-
-Component	Technology	Purpose	
-Styling	[Bulma CSS](https://bulma.io/)	Modern, responsive CSS framework	
-Reactivity	[Alpine.js](https://alpinejs.dev/)	Lightweight JS framework (15kb)	
-Encryption	[WebCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)	Native browser cryptography	
-QR Codes	[QRCode.js](https://github.com/davidshimjs/qrcodejs)	Share visualization	
-SSS Math	Custom implementation	Finite field arithmetic	
++--------------------------------------------------------------------------+
+|                         BROWSER (Client-Only)                            |
+|                                                                          |
+|   +--------------+   +----------------+   +------------------------+     |
+|   |   UI Layer   |<->|    WebCrypto   |<->|       SSS Engine       |     |
+|   | Bulma+Alpine |   |  AES-256-GCM   |   |     GF(2^256) Math     |     |
+|   +--------------+   +----------------+   +------------------------+     |
+|          |                    |                      |                   |
+|          v                    v                      v                   |
+|   +--------------+   +----------------+   +------------------------+     |
+|   |  File Import |   |    Encrypt     |   |    5 Shares Output     |     |
+|   | JSON/CSV/TXT |-->|   IV+Cipher    |-->| (3-of-5 Threshold SSS) |     |
+|   +--------------+   +----------------+   +------------------------+     |
+|                                                                          |
+|   SECURITY GUARANTEES                                                    |
+|   - No network requests after initial load                               |
+|   - No data persistence (memory-only)                                    |
+|   - No external crypto libraries (native WebCrypto only)                 |
++--------------------------------------------------------------------------+
 
 ---
 
